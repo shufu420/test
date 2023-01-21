@@ -1,0 +1,55 @@
+local Gui = script.Parent
+local ScrollingFrame = Gui:WaitForChild("ScrollingFrame")
+local TestScriptButton = Gui:WaitForChild("TestScriptButton")
+local TestScript2Button = Gui:WaitForChild("TestScript2Button")
+local PlsWorkButton = Gui:WaitForChild("PlsWorkButton")
+local FourthButton = Gui:WaitForChild("FourthButton")
+local OpenOtherGuiButton = Gui:WaitForChild("OpenOtherGuiButton")
+local isOpen = false
+
+ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 1000)
+
+Gui.Parent.ChildAdded:connect(function(child)
+    if child:IsA("GuiButton") then
+        child.MouseButton1Click:connect(function()
+            if child == TestScriptButton then
+                print("Hello world!")
+            elseif child == TestScript2Button then
+                print("Script test 2")
+            elseif child == PlsWorkButton then
+                print("Test button 3")
+            elseif child == FourthButton then
+                print("Fourth one, pls work!!!!!!")
+            elseif child == OpenOtherGuiButton then
+                local OtherGui = script.OtherGui:Clone()
+                OtherGui.Parent = Gui.Parent
+                OtherGui.CloseButton.MouseButton1Click:connect(function()
+                    OtherGui:Destroy()
+                end)
+                OtherGui.CopyLinkButton.MouseButton1Click:connect(function()
+                    game:GetService("CoreGui").Clipboard = "https://example.com/"
+                end)
+                game.StarterGui:SetCore("SendNotification", {
+                Title = "Made by 🥀Shufu🥀#2796";
+                Text = "";
+                })
+            end
+        end)
+    end
+end)
+
+local function toggleGui()
+    if isOpen then
+        Gui.Enabled = false
+        isOpen = false
+    else
+        Gui.Enabled = true
+        isOpen = true
+    end
+end
+
+game:GetService("UserInputService").InputBegan:connect(function(inputObject)
+    if inputObject.KeyCode == Enum.KeyCode.Escape then
+        toggleGui()
+    end
+end)
